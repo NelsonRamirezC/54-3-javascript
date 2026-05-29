@@ -1,0 +1,97 @@
+/* INICIO RESET DE ESTILOS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h2 {
+    margin-bottom: 16px;
+}
+
+p {
+    margin-bottom: 8px;
+}
+
+/* FIN RESET DE ESTILOS */
+
+/* INICIO ESTILOS HEADER */
+
+header {
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+
+header h1 {
+    padding-top: 12px;
+    padding-bottom: 20px;
+}
+
+/* FIN ESTILOS HEADER */
+
+/* INICIO ESTILOS NAV */
+
+nav {
+    background-color: grey;
+    text-align: center;
+}
+
+nav ul {
+    padding: 20px;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0px 8px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+}
+/* FIN ESTILOS NAV */
+
+/* INICIO ESTILOS MAIN */
+
+main {
+    padding: 20px;
+}
+
+/* FIN ESTILOS MAIN */
+
+/* INICIO ESTILOS SECCIONES */
+
+figure {
+    border: thin silver solid;
+    /* ESTUDIAR FLEXBOX */
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+    max-width: 220px;
+}
+
+img {
+    max-width: 220px;
+    max-height: 150px;
+}
+
+figcaption {
+    background-color: #222222;
+    color: white;
+    font: italic smaller sans-serif;
+    padding: 3px;
+    text-align: center;
+}
+
+#proyectos article button {
+    padding: 8px 16px;
+    background-color: black;
+    color:white;
+    font-weight: 600;
+}
+
+
+/* FIN ESTILOS SECCTIONES */
