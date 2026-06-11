@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        //PROMPT GENERA UNA VENTANA EMERGE QUE PIDE INGRESAR DATOS
+        let nombre = prompt("Ingresa tu nombre");
+        let apellido = prompt("Ingresa tu apellido");
+
+        //USAMOS EL OPERADOR + PARA CONCATENAR
+        //let nombreCompleto = nombre + " " + apellido;
+
+        //ALTERNARTIVA CON TEMPLATE LITERAL -> INTERPOLACIÓN
+        let nombreCompleto = `${nombre} ${apellido}`;
+
+        console.log("Nombre completo:", nombreCompleto);
+        alert(`Nombre Completo: ${nombreCompleto}`);
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
