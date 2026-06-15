@@ -1,0 +1,23 @@
+<script>
+    /*
+Ejemplo becas:
+
+1.- edad >= 18
+2.- promedio notas >= 5.5
+*/
+
+    let edad = prompt("Ingres su edad:");
+
+    if (edad >= 18) {
+        let promedioNotas = prompt("Ingrese su promedio de notas:");
+        promedioNotas = parseFloat(promedioNotas);
+        if (promedioNotas >= 5.5) {
+            alert("Usted es candidato a beca.");
+        } else {
+            alert("Su promedio es inferior a 5.5 exigido.");
+        }
+    } else {
+        alert("Usted no tiene la edad suficiente para postular...");
+    }
+
+</script>

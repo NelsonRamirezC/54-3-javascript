@@ -1,0 +1,32 @@
+<script>
+
+    // MENÚ OPCIONES CALL CENTER
+
+    let mensaje = 
+    `Elige la opción digitando el número del menú, ejemplo: 1:
+    \n1. Atención con ejecutivo.
+    \n2. Servicio técnico.
+    \n3. Contratación Internet.
+    \n4. Contratación Telefonía.
+    `;
+
+    let opcion = prompt(mensaje);
+    
+    switch (opcion) {
+        case "1":
+            alert("Usted está siendo derivado con un ejecutivo...");
+            break;
+        case "2":
+            alert("Usted está siendo derivado con un especialista técnico.");
+            break;
+        case "3":
+        case "4":
+            alert("Un vendedor se pondrá en contacto con usted.");
+            break;
+    
+        default:
+            alert("Ha ingresado una opción inválida, revise el menú.");
+            break;
+    };
+
+</script>

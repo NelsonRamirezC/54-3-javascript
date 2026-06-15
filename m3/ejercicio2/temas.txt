@@ -1,0 +1,11 @@
+- operadores aritméticos
+- operadores lógicos
+- condicionales
+- Data Types -> Strings
+- if ternario
+- Switch
+
+CONTENIDOS DE ESTUDIO PARA PRÓXIMA SESIÓN:
+- Arrays
+- Ciclos: for, for in, for of, forEach, while, do while.
+- Investigar sobre los métodos y propiedades de los tipo String
