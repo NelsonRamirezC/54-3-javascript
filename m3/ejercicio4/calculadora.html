@@ -1,0 +1,69 @@
+<script>
+
+    function calculadora(opcion, valor1, valor2) {
+
+        switch (opcion) {
+            case "sumar":
+                return valor1 + valor2;
+                break;
+            case "restar":
+                return valor1 - valor2;
+                break;
+            case "multiplicar":
+                return valor1 * valor2;
+            case "dividir":
+                if (valor2 === 0) return NaN;
+                return valor1 / valor2;
+            default:
+                return NaN;
+        }
+    }
+
+
+    function iniciarCalculadora() {
+        const menu = "Elige operación:\n1) Sumar\n2) Restar\n3) Multiplicar\n4) Dividir";
+
+        const opcion = prompt(menu);
+
+        if (opcion === null) return;
+
+        const opMap = { "1": "sumar", "2": "restar", "3": "multiplicar", "4": "dividir" };
+
+        const operacion = opMap[opcion.trim()];
+        if (!operacion) {
+            alert("Opción no válida.");
+            return;
+        }
+        const v1s = prompt("Ingresa el primer número:");
+        if (v1s === null) return;
+        const v2s = prompt("Ingresa el segundo número:");
+        if (v2s === null) return;
+        const num1 = parseFloat(v1s.replace(",", "."));
+        const num2 = parseFloat(v2s.replace(",", "."));
+        if (Number.isNaN(num1) || Number.isNaN(num2)) {
+            alert("Entrada inválida: introduce números válidos.");
+            return;
+        }
+        const resultado = calculadora(operacion, num1, num2);
+        if (Number.isNaN(resultado)) {
+            alert("Error en la operación (posible división por cero).");
+            return;
+        }
+        alert("Resultado: " + resultado);
+    }
+
+    window.iniciarCalculadora = iniciarCalculadora;
+
+
+
+    let continuar = true;
+
+    do {
+        iniciarCalculadora();
+
+        continuar = confirm("desea continuar?");
+
+
+    }while(continuar);
+
+</script>

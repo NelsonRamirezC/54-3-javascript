@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 4</title>
+
+    <style>
+        ul li button {
+            margin-left: 5px;
+        }
+
+        .text-info {
+            color: blue;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Registro de tareas</h1>
+    </header>
+    <div>
+        <label for="">Ingrese una tarea:</label>
+        <input type="text" id="tareaInputEl" placeholder="ingresa el nombre aquí...">
+        <button id="btnAgregarEl">Agregar Tarea</button>
+        <br>
+        <small class="text-info">La Tarea debe tener un mínimo de 5 caracteres</small>
+    </div>
+
+    <div>
+        <h2>Lista de tareas:</h2>
+
+        <ul id="listaTareasEl">
+
+        </ul>
+    </div>
+
+
+    <script>
+        const tareas = ["Comprar materiales", "Comprar herramientas"];
+
+        function agregarTarea(tarea) {
+            tareas.unshift(tarea);
+        };
+
+        function elminarTarea(indice) {
+            tareas.splice(indice, 1);
+        };
+
+        function mostrarTareas(listaTareas = []) {
+
+            listaTareasEl.innerHTML = "";
+
+            listaTareas.forEach((tarea, index) => {
+                //por cada tarea creamos un <li>
+                const li = document.createElement("li");
+
+                //le asignamos como contenido de texto el nombre de la tarea
+                li.textContent = tarea;
+
+                //CREAR BOTÓN DE ELIMINAR
+                const btn = document.createElement("button");
+                btn.textContent = "Eliminar";
+
+                //LE AGREGAMOS UN ATRIBUTO CUSTOM (DATASET) CON EL ÍNDICE DE LA TAREA DENTRO DEL ARRAY
+                btn.setAttribute("data-tarea-index", index);
+                btn.setAttribute("data-tarea-nombre", tarea);
+                btn.className = "btnEliminar";
+
+                // btn.addEventListener("click", () => {
+                //     let indiceTarea = btn.dataset.tareaIndex;
+
+                //     let confirmacion = confirm("Está seguro que desea eliminar la siguiente tarea: "+ tarea);
+
+                //     if(confirmacion){
+                //         elminarTarea(indiceTarea);
+                //         mostrarTareas(tareas);
+                //     }
+                // });
+
+                //LE AGREGAMOS A CADA LI EL BUTTON DE ELIMINAR
+                li.appendChild(btn);
+
+                //AGREGAMOS EL NUEVO LI COMO HIJO DE LA LISTA
+                listaTareasEl.appendChild(li);
+            });
+        }
+
+
+        // INICIO EVENTO CLICK BOTÓN AGREGAR TAREAS
+
+        btnAgregarEl.addEventListener("click", (event) => {
+
+            //CAPTURAR EL VALOR INGRESADO POR EL USUARIO EN INPUT
+            let nuevaTarea = tareaInputEl.value;
+
+            //LE QUITAMOS LOS ESPACIOS AL PRINCIPIO Y AL FINAL
+            nuevaTarea = nuevaTarea.trim();
+
+            if (nuevaTarea.length < 5) {
+                return alert("La Tarea debe tener un mínimo de 5 caracteres.")
+            }
+
+            if (nuevaTarea) {
+                agregarTarea(nuevaTarea);
+                //LIMPIAR LA INPUT
+                tareaInputEl.value = "";
+                mostrarTareas(tareas);
+            }
+
+        });
+
+
+        // FIN EVENTO CLICK BOTÓN AGREGAR TAREAS
+
+
+
+        //INICIO SUGERENCIA EVENTO BUTTON ELIMINAR UL
+
+        listaTareasEl.addEventListener("click", (event) => {
+
+            const elemento = event.target;
+            if (elemento.className == "btnEliminar") {
+
+                let indiceTarea = elemento.dataset.tareaIndex;
+                let tarea = elemento.dataset.nombre;
+
+                let confirmacion = confirm("Está seguro que desea eliminar la siguiente tarea: " + tarea);
+
+                if (confirmacion) {
+                    elminarTarea(indiceTarea);
+                    mostrarTareas(tareas);
+                }
+
+            }
+        });
+
+        //FIN SUGERENCIA EVENTO BUTTON ELIMINAR UL
+
+
+
+
+        //QUEREMOS QUE SE EJECUTE 1 VEZ
+        function main() {
+            //INVOCAMOS A LA FUNCIÓN MOSTRAR TAREAS AL CARGAR LA PÁGINA
+            mostrarTareas(tareas);
+        }
+
+        main();
+    </script>
+
+</body>
+
+</html>
