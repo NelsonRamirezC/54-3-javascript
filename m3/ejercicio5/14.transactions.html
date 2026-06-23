@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wallet - Últimos Movimientos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <section>
+            <h2>Últimos Movimientos</h2>
+            <div class="d-flex justify-content-around my-2">
+                <button class="btn btn-secondary" id="btnTodoEl">Todo</button>
+                <button class="btn btn-success" id="btnIngresosEl">Ingresos</button>
+                <button class="btn btn-danger" id="btnEgresosEl">Egresos</button>
+            </div>
+
+            <div class="mb-2">
+                <ul class="list-group" id="listaTransaccionesEl">
+
+                </ul>
+            </div>
+            <a href="menu.html" class="btn btn-secondary">Volver al Menú Principal</a>
+        </section>
+    </div>
+
+
+
+    <script>
+
+        //LOS NGRESOS SON TRUE, EN CASO DE SER FALSE SIN EGRESOS
+        const transacciones = [
+            { id: 1, glosa: "Compra en línea", monto: 500, ingreso: false },
+            { id: 2, glosa: "Depósito", monto: 1000, ingreso: true },
+            { id: 3, glosa: "Transferencia recibida", monto: 75, ingreso: true },
+        ];
+
+        function formatoMonedaStr(valor) {
+            valor = Number(valor);
+            return valor.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
+        };
+
+        const listaTransaccionesEl = document.getElementById("listaTransaccionesEl");
+
+
+        function cargarListaTransacciones(lista) {
+
+            const fragment = new DocumentFragment();
+
+            //LIMPIAMOS EL HISTORIAL PREVIO
+            listaTransaccionesEl.innerHTML = "";
+
+            for (const transaccion of lista) {
+
+                let { id, glosa, monto, ingreso } = transaccion;
+
+                const li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.classList.add("d-flex");
+                li.classList.add("justify-content-between");
+
+                if (ingreso) {
+                    li.classList.add("list-group-item-success");
+                } else {
+                    li.classList.add("list-group-item-danger");
+                }
+
+                li.textContent = glosa + ": ";
+
+                let span = document.createElement("span");
+                span.textContent = formatoMonedaStr(monto);
+
+                li.append(span);
+
+                //vamos los los li al fragmento
+                fragment.append(li);
+            };
+
+            listaTransaccionesEl.append(fragment);
+
+        }
+
+        function main() {
+            cargarListaTransacciones(transacciones);
+
+        };
+
+        main();
+
+
+        //EVENTOS DE BOTONES TODO / INGRESOS / EGRESOS
+
+        const btnTodoEl = document.getElementById("btnTodoEl");
+        const btnIngresosEl = document.getElementById("btnIngresosEl");
+        const btnEgresosEl = document.getElementById("btnEgresosEl");
+
+        //BUTTON TODO
+        btnTodoEl.addEventListener("click", function(event){
+            cargarListaTransacciones(transacciones);
+
+            btnTodoEl.setAttribute("disabled", true);
+            btnIngresosEl.removeAttribute("disabled");
+            btnEgresosEl.removeAttribute("disabled");
+        });
+
+        //BUTTON INGRESOS
+        btnIngresosEl.addEventListener("click", function(event){
+
+            let ingresos = transacciones.filter(t => t.ingreso);
+            cargarListaTransacciones(ingresos);
+
+            btnTodoEl.removeAttribute("disabled");
+            btnIngresosEl.setAttribute("disabled", true);
+            btnEgresosEl.removeAttribute("disabled");
+        });
+
+        //BUTTON EGRESOS
+        btnEgresosEl.addEventListener("click", function(event){
+
+            let egresos = transacciones.filter(t => !t.ingreso);
+            cargarListaTransacciones(egresos);
+            
+            btnTodoEl.removeAttribute("disabled");
+            btnIngresosEl.removeAttribute("disabled");
+            btnEgresosEl.setAttribute("disabled", true);
+        });
+
+
+    </script>
+</body>
+
+</html>
