@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario - ABP M3</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: #f0f4ff;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+            display: block;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background-color: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            background-color: white;
+        }
+
+        tr:hover td {
+            background-color: #f0f4ff;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            flex: 1;
+            min-width: 100px;
+            background: #667eea;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.6);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 2px solid #667eea;
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>📦 Gestión de Inventario</h1>
+            <p>Sistema de control de productos alimenticios</p>
+        </header>
+
+        <div class="content">
+            <!-- Sección: Agregar Producto -->
+            <div class="section">
+                <h2>Agregar Producto</h2>
+                <div id="mensajeAgregar" class="message"></div>
+
+                <form id="formAgregarProducto">
+                    <div class="form-group">
+                        <label for="codigo">Código del Producto:</label>
+                        <input type="text" id="codigo" placeholder="Ej: 1111" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre del Producto:</label>
+                        <input type="text" id="nombre" placeholder="Ej: Manzana Roja" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoria" required>
+                            <option value="">-- Seleccionar categoría --</option>
+                            <option value="Frutas">Frutas</option>
+                            <option value="Verduras">Verduras</option>
+                            <option value="Carnes">Carnes</option>
+                            <option value="Lacteos">Lacteos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad (unidades):</label>
+                        <input type="number" id="cantidad" placeholder="Ej: 50" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio">Precio Unitario ($):</label>
+                        <input type="number" id="precio" placeholder="Ej: 2.50" min="0" step="0.01" required>
+                    </div>
+
+                    <button type="submit">Registrar Producto</button>
+                </form>
+            </div>
+
+            <!-- Sección: Filtrar por Categoría -->
+            <div class="section">
+                <h2>Filtrar por Categoría</h2>
+                <div id="mensajeFiltro" class="message"></div>
+
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-categoria="">Ver Todo</button>
+                    <button class="filter-btn" data-categoria="Frutas">🍎 Frutas</button>
+                    <button class="filter-btn" data-categoria="Verduras">🥕 Verduras</button>
+                    <button class="filter-btn" data-categoria="Carnes">🥩 Carnes</button>
+                    <button class="filter-btn" data-categoria="Lacteos">🥛 Lacteos</button>
+                </div>
+            </div>
+
+            <!-- Sección: Estadísticas -->
+            <div class="section full-width">
+                <h2>Estadísticas del Inventario</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <p>Total de Productos</p>
+                        <h3 id="totalProductos">0</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Valor Total del Inventario</p>
+                        <h3 id="valorTotal">$0.00</h3>
+                    </div>
+                    <div class="stat-card">
+                        <p>Unidades en Stock</p>
+                        <h3 id="totalUnidades">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Inventario -->
+            <div class="section full-width">
+                <h2>Inventario</h2>
+                <button id="btnLimpiarFiltro" style="margin-bottom: 15px;">Limpiar Filtro</button>
+                <div class="table-container" id="tablaInventario">
+                    <table id="tablaProductos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Total</th>
+                                <th>Fecha Ingreso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoTabla">
+                            <tr>
+                                <td colspan="8" class="empty-message">No hay productos registrados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const productos = [];
+        moment.locale("es");
+        let filtroActual = "";
+
+
+        // ==================== FUNCIONES AUXILIARES ====================
+
+        function crearUUID() {
+            return uuidv4();
+        }
+
+        function obtenerFecha() {
+            return moment().format("DD/MM/YYYY");
+        }
+
+        function mostrarMensaje(elementId, texto, tipo = "info") {
+            const elemento = document.getElementById(elementId);
+            elemento.textContent = texto;
+            elemento.className = `message ${tipo}`;
+
+            setTimeout(() => {
+                elemento.className = "message";
+            }, 4000);
+        }
+
+        // ==================== CLASE PRODUCTO ====================
+
+        class Producto {
+            constructor(codigo, nombre, categoria, cantidad, precioUnitario) {
+                this.id = crearUUID();
+                this.codigo = codigo;
+                this.nombre = nombre;
+                this.categoria = categoria;
+                this.cantidad = cantidad;
+                this.precioUnitario = precioUnitario;
+                this.fechaIngreso = obtenerFecha();
+            }
+
+            total() {
+                return this.precioUnitario * this.cantidad;
+            }
+
+            guardar() {
+                productos.push(this);
+            }
+        }
+
+        // ==================== FUNCIONES DE INTERFAZ ====================
+
+        function actualizarTabla(listaProductos = productos) {
+            const cuerpoTabla = document.getElementById("cuerpoTabla");
+
+            if (listaProductos.length === 0) {
+                cuerpoTabla.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-message">No hay productos registrados</td>
+                    </tr>
+                `;
+                actualizarEstadisticas([]);
+                return;
+            }
+
+            let html = "";
+            listaProductos.forEach(producto => {
+                const { id, codigo, nombre, categoria, cantidad, precioUnitario, fechaIngreso } = producto;
+                html += `
+                    <tr>
+                        <td>${id.substring(0, 8)}...</td>
+                        <td>${codigo}</td>
+                        <td>${nombre}</td>
+                        <td>${categoria}</td>
+                        <td>${cantidad}</td>
+                        <td>$${precioUnitario.toFixed(2)}</td>
+                        <td>$${producto.total().toFixed(2)}</td>
+                        <td>${fechaIngreso}</td>
+                    </tr>
+                `;
+            });
+
+            cuerpoTabla.innerHTML = html;
+            actualizarEstadisticas(listaProductos);
+        }
+
+        function actualizarEstadisticas(listaProductos = productos) {
+            const totalProductos = listaProductos.length;
+            const valorTotal = listaProductos.reduce((sum, p) => sum + p.total(), 0);
+            const totalUnidades = listaProductos.reduce((sum, p) => sum + p.cantidad, 0);
+
+            document.getElementById("totalProductos").textContent = totalProductos;
+            document.getElementById("valorTotal").textContent = `$${valorTotal.toFixed(2)}`;
+            document.getElementById("totalUnidades").textContent = totalUnidades;
+        }
+
+        function filtrarPorCategoria(categoria) {
+            filtroActual = categoria;
+            const listaFiltrada = categoria ? productos.filter(p => p.categoria === categoria) : productos;
+            actualizarTabla(listaFiltrada);
+
+            if (categoria) {
+                mostrarMensaje("mensajeFiltro", `Mostrando productos de la categoría: ${categoria}`, "info");
+            }
+
+            // Actualizar botones activos
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                btn.classList.remove("active");
+                if (btn.dataset.categoria === categoria) {
+                    btn.classList.add("active");
+                }
+            });
+        }
+
+        // ==================== MANEJADORES DE FORMULARIO ====================
+
+        document.getElementById("formAgregarProducto").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const codigo = document.getElementById("codigo").value.trim();
+            const nombre = document.getElementById("nombre").value.trim();
+            const categoria = document.getElementById("categoria").value;
+            const cantidad = parseInt(document.getElementById("cantidad").value);
+            const precioUnitario = parseFloat(document.getElementById("precio").value);
+
+            // Validaciones
+            if (!codigo) {
+                mostrarMensaje("mensajeAgregar", "El código es requerido", "error");
+                return;
+            }
+
+            if (!nombre) {
+                mostrarMensaje("mensajeAgregar", "El nombre es requerido", "error");
+                return;
+            }
+
+            if (!categoria) {
+                mostrarMensaje("mensajeAgregar", "Seleccione una categoría válida", "error");
+                return;
+            }
+
+            if (isNaN(cantidad) || cantidad <= 0) {
+                mostrarMensaje("mensajeAgregar", "La cantidad debe ser mayor a 0", "error");
+                return;
+            }
+
+            if (isNaN(precioUnitario) || precioUnitario < 0) {
+                mostrarMensaje("mensajeAgregar", "El precio debe ser mayor o igual a 0", "error");
+                return;
+            }
+
+            // Crear y guardar producto
+            const nuevoProducto = new Producto(codigo, nombre, categoria, cantidad, precioUnitario);
+            nuevoProducto.guardar();
+
+            // Mostrar mensaje de éxito
+            mostrarMensaje("mensajeAgregar", `✓ Producto registrado con ID: ${nuevoProducto.id.substring(0, 8)}...`, "success");
+
+            // Limpiar formulario
+            this.reset();
+
+            // Actualizar tabla y limpiar filtro
+            filtroActual = "";
+            actualizarTabla();
+            document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+        });
+
+        // ==================== MANEJADORES DE BOTONES ====================
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const categoria = this.dataset.categoria;
+                filtrarPorCategoria(categoria);
+            });
+        });
+
+        document.getElementById("btnLimpiarFiltro").addEventListener("click", function () {
+            filtroActual = "";
+            document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+            actualizarTabla(productos);
+            mostrarMensaje("mensajeFiltro", "", "info");
+        });
+
+        // Inicializar tabla vacía
+        actualizarTabla();
+    </script>
+</body>
+
+</html>
