@@ -1,0 +1,33 @@
+<ul id="lista-elementos">
+    <li>elemento 1</li>
+    <li>elemento 2</li>
+    <li>elemento 3</li>
+    <li>elemento 4</li>
+    <li>elemento 5</li>
+</ul>
+
+
+<style>
+
+</style>
+
+<script>
+
+    const lista = document.getElementById("lista-elementos");
+
+    lista.addEventListener("mouseover", (evento) => {
+        // Verificamos si el elemento sobre el que estamos es un 'li'
+        if (evento.target && evento.target.matches("li")) {
+            evento.target.style.color = "red";
+        }
+    });
+
+    lista.addEventListener("mouseout", (evento) => {
+        // Verificamos de igual forma al salir del elemento
+        if (evento.target && evento.target.matches("li")) {
+            evento.target.style.color = "black";
+        }
+    });
+
+
+</script>

@@ -1,0 +1,37 @@
+<ul id="lista-elementos">
+    <li>elemento 1</li>
+    <li>elemento 2</li>
+    <li>elemento 3</li>
+    <li>elemento 4</li>
+    <li>elemento 5</li>
+</ul>
+
+
+<style>
+    .terminado {
+        text-decoration:line-through;
+        color:red;
+    }
+</style>
+
+<script>
+
+    const elementosLista = document.querySelector("#lista-elementos");
+
+    elementosLista.addEventListener("click", (event) => {
+        const elemento = event.target;
+
+        if(elemento.tagName == "LI"){
+            elemento.classList.toggle("terminado");
+        }
+    });
+
+
+    let nuevoLi = document.createElement("li");
+    nuevoLi.textContent = "Nuevo elemento";
+
+    //LE AGREGAMOS UN NUEVO HIJO A LA LISTA
+    const lista = document.querySelector("#lista-elementos");
+    lista.append(nuevoLi);
+
+</script>

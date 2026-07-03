@@ -1,0 +1,44 @@
+<section id="seccion-1">
+    <h2>Titulo de sección</h2>
+    <p>Elemento 1</p>
+    <p>Elemento 2</p>
+    <p>Elemento 3</p>
+    <div>
+        <p>Otro elemento</p>
+        <p>Otro elemento</p>
+        <p>Otro elemento</p>
+    </div>
+</section>
+
+<section id="seccion-2">
+    <h2>Titulo de sección</h2>
+    <p>Elemento 1</p>
+    <p>Elemento 2</p>
+    <p>Elemento 3</p>
+
+</section>
+
+<style>
+    .destacado {
+        color:red;
+        text-decoration: underline;
+    }
+</style>
+
+<script>
+    //SELECTOR querySelector -> equivalente a reglas CSS
+    //permite capturar el primer elemento que coincida
+    const elemento = document.querySelector("#seccion-2 h2");
+    elemento.classList.add("destacado");
+
+
+    //SELECTO querySelectoAll -> equivalente a reglas CSS
+    //permite capturar todos los elementos que coincidan
+
+    const parrafosSeccion1 = document.querySelectorAll("#seccion-1 > p");
+
+    for (const parrafo of parrafosSeccion1) {
+        parrafo.style.color = "orange";
+    }
+    
+</script>

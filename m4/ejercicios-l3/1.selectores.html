@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selectores</title>
+</head>
+
+<style>
+    .subtitulo {
+        text-decoration: underline;
+    }
+
+    .resaltar {
+        color: green;
+    }
+
+</style>
+
+<body>
+
+    <header>
+        <h1 id="titulo-principal">Titulo principal</h1>
+    </header>
+    <main>
+        <section>
+            <h2 class="subtitulo">Titulo de sección</h2>
+            <p>Descripción de la sección</p>
+        </section>
+
+        <section>
+            <h2 class="subtitulo">Titulo de sección</h2>
+            <p>Descripción de la sección</p>
+        </section>
+
+        <section>
+            <h2 class="subtitulo">Titulo de sección</h2>
+            <p>Descripción de la sección</p>
+        </section>
+    </main>
+
+
+    <script>
+
+        //SELECTOR DE ID
+        const tituloPrincipal = document.getElementById("titulo-principal");
+
+        //APLICANDO ESTILOS A UN LÍNEA
+        tituloPrincipal.style.backgroundColor = "red";
+        tituloPrincipal.style.color = "blue";
+        tituloPrincipal.style.fontSize = "60px";
+
+
+        //SELECTOR DE CLASE
+
+        const subtitulos = document.getElementsByClassName("subtitulo");
+
+        for (const subtitulo of subtitulos) {
+            subtitulo.classList.add("resaltar");
+        };
+
+        //SELECTOR DE TAGS
+        const parrafos = document.getElementsByTagName("p");
+
+        for (const parrafo of parrafos) {
+            parrafo.style.color = "blue";
+            parrafo.style.fontSize = "18px";
+            parrafo.style.textAlign = "center";
+        };
+
+
+    </script>
+</body>
+
+</html>

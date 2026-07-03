@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo 8</title>
+
+    <!-- CSS DE BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- JS DE BOOTSTRAP -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <h1 class="text-center">Galería de productos</h1>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2 class="text-center">Productos...</h2>
+
+            <div class="row g-3" id="grilla-imagenes">
+
+                <!-- AQUÍ SE AGREGAN LAS COLUMNAS DESDE JAVASCRIPT -->
+        </section>
+    </main>
+
+
+    <script>
+        const productos = [
+            {
+                id: 1,
+                nombre: "Producto 1",
+                descripcion: "Descripción producto 1",
+                precio: 5000,
+                imagen: "https://picsum.photos/id/237/300/200"
+            },
+            {
+                id: 2,
+                nombre: "Producto 2",
+                descripcion: "Descripción producto 2",
+                precio: 7500,
+                imagen: "https://picsum.photos/id/238/300/200"
+            },
+            {
+                id: 3,
+                nombre: "Producto 3",
+                descripcion: "Descripción producto 3",
+                precio: 8000,
+                imagen: "https://picsum.photos/id/239/300/200"
+            },
+            {
+                id: 4,
+                nombre: "Producto 4",
+                descripcion: "Descripción producto 4",
+                precio: 6500,
+                imagen: "https://picsum.photos/id/240/300/200"
+            },
+        ];
+
+
+        const cargarProductos = (productos) => {
+            //CAPTURAMOS GRILLA DONDE VAMOS A CARGAR DE FORMA DINÁMICA LAS COLUMNAS DESDE EL ARRAY
+
+            const grillaImagenes = document.getElementById("grilla-imagenes");
+
+
+            let columnas = "";
+            for (const producto of productos) {
+
+                let { nombre, descripcion, precio, imagen } = producto;
+                columnas += `
+                <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card w-100 mx-auto">
+                            <img src="${imagen}" class="card-img-top w-100" alt="${nombre}">
+                            <div class="card-body">
+                                <h5 class="card-title">${nombre}</h5>
+                                <p class="card-text">${descripcion}</p>
+                                <p class="card-text">Precio: $ ${precio}</p>
+                                <a href="#" class="btn btn-primary">Ver detalles</a>
+                            </div>
+                        </div>
+                </div>
+            `;
+            };
+
+            grillaImagenes.innerHTML = columnas;
+
+        }
+
+
+        const main = () => {
+            cargarProductos(productos);
+        };
+
+        main();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<header>
+    <h1>Titulo principal</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Subtitulo</h2>
+        <p>elemento 1</p>
+        <p>elemento 2</p>
+        <p>elemento 3</p>
+    </section>
+</main>
+
+
+<style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+</style>
+
+<script>
+
+    //innerText -> permite obtener y modificar el contenido de texto
+    //lo que asigne al elemento será considerado texto
+    const tituloPrincipal = document.querySelector("header h1");
+
+    let texto = `** ${tituloPrincipal.innerText} **`
+    tituloPrincipal.innerText = texto.toUpperCase();
+    //como alternativa podemos usar textContent...
+
+
+    //SELECCIONAR TODOS LOS PARRAFOS
+
+    //innerHTML -> permite obtener los elementos de texto y etiquetas html
+    // lo que asignemos con formato html es interpretado como html
+    const parrafos = document.querySelectorAll("section p");
+
+    for (const parrafo of parrafos ) {
+        parrafo.innerHTML += '<i class="bi bi-pencil"></i>';
+    };
+
+</script>

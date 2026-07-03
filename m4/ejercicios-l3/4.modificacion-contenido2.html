@@ -1,0 +1,56 @@
+<ul id="lista-personas">
+</ul>
+
+
+<ul id="lista-personas2">
+
+</ul>
+
+<ul id="lista-personas3">
+
+</ul>
+
+
+<script>
+    //MÉTODO 1, PRÁCTICO PERO GENERA REFLOW
+    const personas = ["Carlos", "Marta", "María", "Miguel"];
+
+    //CAPTURAMOS EL ELEMENTO DEL DOM QUE VAMOS A MODIFCAR
+    const listaPersonas = document.querySelector("#lista-personas");
+
+    let elementosLista = "";
+    for (const persona of personas) {
+        
+        elementosLista += `<li>${persona}</li>`;
+        
+    };
+
+    listaPersonas.innerHTML = elementosLista;
+
+
+    //MÉTODO 2 USANDO createElement
+
+    const listaPersonas2 = document.querySelector("#lista-personas2");
+
+    for (const persona of personas) {
+
+        const li = document.createElement("li");
+        li.textContent = persona;
+        listaPersonas2.append(li);
+    };
+
+
+    //MÉTODO 3 USANDO DocumentFragment
+
+    const listaPersonas3 = document.querySelector("#lista-personas3");
+
+    const fragment = new DocumentFragment();
+
+    for (const persona of personas) {
+        const li = document.createElement("li");
+        li.textContent = persona ;
+        fragment.append(li);
+    }
+
+        listaPersonas3.append(fragment);
+</script>
