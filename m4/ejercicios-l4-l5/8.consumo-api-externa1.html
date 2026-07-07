@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumo API</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <header class="py-3">
+        <h1 class="text-center">Practicando consumo de APIs de Terceros</h1>
+    </header>
+
+    <main class="container">
+
+        <section>
+            <h2 class="text-center">Lista de usuarios</h2>
+
+            <table class="table table-fixed table-bordered" id="tabla-usuarios" style="table-layout: fixed; width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" style="width: 10%;">ID</th>
+                        <th scope="col" class="text-center" style="width: 30%;">Nombre</th>
+                        <th scope="col" class="text-center" style="width: 25%;">Usuario</th>
+                        <th scope="col" class="text-center" style="width: 35%;">Email</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla-usuarios">
+                    <tr>
+                        <td class="text-center"><span class="placeholder col-3"></span></td>
+                        <td><span class="placeholder col-8"></span></td>
+                        <td><span class="placeholder col-6"></span></td>
+                        <td><span class="placeholder col-10"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"><span class="placeholder col-2"></span></td>
+                        <td><span class="placeholder col-5"></span></td>
+                        <td><span class="placeholder col-7"></span></td>
+                        <td><span class="placeholder col-9"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script>
+
+        const getUsuarios = async () => {
+            const URL_API = "https://jsonplaceholder.typicode.com/users";
+            try {
+
+                const response = await fetch(URL_API);
+                const data = await response.json();
+
+                return data;
+
+            } catch (error) {
+                ;
+                console.log(error)
+            }
+        };
+
+
+        const mostrarUsuariosTabla = (usuarios = []) => {
+
+            let registros = "";
+            for (const usuario of usuarios) {
+
+                let { id, name: nombre, username, email } = usuario;
+
+                registros += `
+                    <tr>
+                        <th scope="row">${id}</th>
+                        <td>${nombre}</td>
+                        <td>${username}</td>
+                        <td>${email}</td>
+                    </tr>
+                `;
+            }
+
+            document.getElementById("cuerpo-tabla-usuarios").innerHTML = registros;
+        }
+
+        //EL EVENTO DOMContentLoaded SE ASEGURA QUE EL DOM SE ENCUENTRA CREADO PARA MANIPULAR SUS ELEMENTOS
+        document.addEventListener("DOMContentLoaded", async (event) => {
+            const usuarios = await getUsuarios();
+
+            setTimeout(() => {
+                mostrarUsuariosTabla(usuarios);
+            }, 1000)
+        });
+
+    </script>
+</body>
+
+</html>
