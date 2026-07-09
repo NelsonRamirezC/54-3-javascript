@@ -1,13 +1,6 @@
 import Tarea from "./Tarea.js";
 
-const getData = async () => {
-    let urlBase = location.origin;
-    let urlJson = urlBase + "/tareas.json";
-    const response = await fetch(urlJson);
-    const data = await response.json();
-
-    return data.tareas;
-};
+import { getData  } from "../funciones.js";
 
 class GestorTareas {
     constructor() {

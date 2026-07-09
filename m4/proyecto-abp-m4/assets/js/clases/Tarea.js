@@ -1,7 +1,7 @@
 class Tarea {
     constructor(descripcion) {
         // Genera un ID único universal (UUID v4) usando la API crypto nativa del navegador
-        this.id = crypto.randomUUID();
+        this.id = crypto.randomUUID().slice(0,6);
         this.descripcion = descripcion;
         // Estado false -> Pendiente / true -> Finalizada
         this.estado = false;

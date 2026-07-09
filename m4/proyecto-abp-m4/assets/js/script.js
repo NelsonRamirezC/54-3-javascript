@@ -1,26 +1,8 @@
 import GestorTareas from "./clases/GestorTareas.js";
 
+import { crearFilaTabla } from "./funciones.js";
+
 const gestorTareas = new GestorTareas();
-
-const crearFilaTabla = (tarea) => {
-    let { id, descripcion, estado, fechaCreacion } = tarea;
-
-    let estadoTexto = estado ? "Finalizado" : "Pendiente";
-
-    let estiloBagde = estado ? "text-bg-success" : "text-bg-warning";
-    return `
-        <tr>
-            <th scope="row">${id}</th>
-                <td>${descripcion}</td>
-                <td>
-                    <span class="badge ${estiloBagde}">${estadoTexto}</span></td>
-                <td>${fechaCreacion}</td>
-                <td>
-                    <button class="btn btn-warning btn-cambiar-estado" data-id="${id}">Cambiar Estado</button>
-                    <button class="btn btn-danger btn-eliminar-tarea" data-id="${id}">Eliminar</button>
-                </td>
-        </tr> `;
-};
 
 const mostrarStatsTareas = () => {
     document.getElementById("span-tareas-total").innerText =
