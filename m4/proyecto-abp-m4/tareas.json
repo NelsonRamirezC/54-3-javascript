@@ -1,0 +1,10 @@
+{
+    "tareas": [
+        {
+            "id": "9b849070-b12a-474d-8d8f-73f75252f9d6",
+            "descripcion": "Tarea 1",
+            "estado": true,
+            "fechaCreacion": "09/07/2026"
+        }
+    ]
+}

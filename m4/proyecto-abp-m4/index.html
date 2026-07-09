@@ -47,7 +47,7 @@
         <section class="py-">
             <h2>Listado de tareas...</h2>
             <div>
-                <table class="table" id="tabla-tareas">
+                <table class="table d-none" id="tabla-tareas">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -61,6 +61,9 @@
                         <!-- AQUÍ SE AGREGAN LAS TAREAS DE FORMA DINÁMICA -->
                     </tbody>
                 </table>
+                <div id="mensaje-sin-tareas">
+                    <p class="text-center fs-1 fw-bold">No existen tareas</p>
+                </div>
             </div>
         </section>
 
