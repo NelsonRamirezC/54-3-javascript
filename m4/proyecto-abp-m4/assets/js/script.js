@@ -6,7 +6,7 @@ const crearFilaTabla = (tarea) => {
     let { id, descripcion, estado, fechaCreacion } = tarea;
 
     let estadoTexto = estado ? "Finalizado" : "Pendiente";
-    
+
     let estiloBagde = estado ? "text-bg-success" : "text-bg-warning";
     return `
         <tr>
@@ -22,7 +22,18 @@ const crearFilaTabla = (tarea) => {
         </tr> `;
 };
 
+const mostrarStatsTareas = () => {
+    document.getElementById("span-tareas-total").innerText =
+        gestorTareas.cantidadTareas();
+    document.getElementById("span-tareas-pendientes").innerText =
+        gestorTareas.cantidadTareasPendientes();
+    document.getElementById("span-tareas-finalizadas").innerText =
+        gestorTareas.cantidadTareasFinalizadas();
+};
+
 const actualizarTablaTareas = (tareas = []) => {
+    mostrarStatsTareas();
+
     if (tareas.length == 0) {
         document.querySelector("#tabla-tareas").classList.add("d-none");
         document
@@ -68,12 +79,12 @@ formCrearTarea.addEventListener("submit", (event) => {
         //ALTERNAR ENTRE MOSTRAR Y OCULTAR UN BOTÓN PARA EVITAR QUE EL USUARIO REALICE MÁS DE 1 CLIC
         alternarBotonesCrearTarea();
 
-        setTimeout(() => {
+        setTimeout(async () => {
             alert(
                 `Se ha creado correctamente la tarea: ${tarea.descripcion}.\nID: ${tarea.id}`,
             );
 
-            const tareas = gestorTareas.obtenerTareas();
+            const tareas = await gestorTareas.obtenerTareas();
 
             actualizarTablaTareas(tareas);
 
@@ -92,52 +103,72 @@ formCrearTarea.addEventListener("submit", (event) => {
 
 document
     .querySelector("#tabla-tareas tbody")
-    .addEventListener("click", (event) => {
-        const elemento = event.target;
+    .addEventListener("click", async (event) => {
+        try {
+            const elemento = event.target;
 
-        if (elemento.tagName != "BUTTON") return;
+            if (elemento.tagName != "BUTTON") return;
 
-        const id = elemento.dataset.id;
+            const id = elemento.dataset.id;
 
-        if (elemento.className.includes("btn-cambiar-estado")) {
-            //AQUÍ EDITAMOS EL ESTAMOS
-            let confirmacion = false;
+            if (elemento.className.includes("btn-cambiar-estado")) {
+                //AQUÍ EDITAMOS EL ESTAMOS
+                let confirmacion = false;
 
-            let tarea = gestorTareas.obtenerTareaPorId(id);
+                let tarea = gestorTareas.obtenerTareaPorId(id);
 
-            if (tarea.estado) {
-                confirmacion = confirm(
-                    "Está seguro de remover el estado finalizado y dejar tarea pendiente?",
+                if (tarea.estado) {
+                    confirmacion = confirm(
+                        "Está seguro de remover el estado finalizado y dejar tarea pendiente?",
+                    );
+                } else {
+                    confirmacion = confirm("Está seguro de finalizar a tarea?");
+                }
+
+                if (confirmacion) {
+                    gestorTareas.cambiarEstadoTarea(id);
+                }
+            } else if (elemento.className.includes("btn-eliminar-tarea")) {
+                //AQUÍ ELIMINAMOS LA TAREA
+
+                let confirmacion = confirm(
+                    `Está seguro de eliminar la tarea con id: ${id}?`,
                 );
-            } else {
-                confirmacion = confirm("Está seguro de finalizar a tarea?");
+
+                if (!confirmacion) return;
+
+                let respuesta = gestorTareas.eliminarTarea(id);
+
+                if (respuesta) {
+                    alert("Tarea eliminada correctamente");
+                } else {
+                    alert(
+                        "Error al intentar eliminar la tarea, vuelva a intentar...",
+                    );
+                }
             }
 
-            if (confirmacion) {
-                gestorTareas.cambiarEstadoTarea(id);
-            }
-        } else if (elemento.className.includes("btn-eliminar-tarea")) {
-            //AQUÍ ELIMINAMOS LA TAREA
+            // AL FINAL ACTUALIZAR LA TABLA DE TAREAS
 
-            let confirmacion = confirm(
-                `Está seguro de eliminar la tarea con id: ${id}?`,
-            );
-
-            if (!confirmacion) return;
-
-            let respuesta = gestorTareas.eliminarTarea(id);
-
-            if (respuesta) {
-                alert("Tarea eliminada correctamente");
-            } else {
-                alert(
-                    "Error al intentar eliminar la tarea, vuelva a intentar...",
-                );
-            }
+            const tareas = await gestorTareas.obtenerTareas();
+            actualizarTablaTareas(tareas);
+        } catch (error) {
+            console.log(error);
         }
-
-        // AL FINAL ACTUALIZAR LA TABLA DE TAREAS
-
-        const tareas = gestorTareas.obtenerTareas();
-        actualizarTablaTareas(tareas);
     });
+
+//EVENTO DE CARGA INICIAL DE LA PÁGINA DESPUÉS DEL DOM
+
+addEventListener("DOMContentLoaded", (event) => {
+    setTimeout(async () => {
+        try {
+            const tareas = await gestorTareas.obtenerTareas();
+            actualizarTablaTareas(tareas);
+            document
+                .getElementById("spinner-tabla-loader")
+                .classList.add("d-none");
+        } catch (error) {
+            console.log(error);
+        }
+    }, 700);
+});

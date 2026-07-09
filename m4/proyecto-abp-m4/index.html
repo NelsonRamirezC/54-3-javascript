@@ -46,6 +46,9 @@
 
         <section class="py-">
             <h2>Listado de tareas...</h2>
+            <p>Cantidad de tareas registradas: <span id="span-tareas-total"></span></p>
+            <p>Cantidad de tareas pendientes: <span id="span-tareas-pendientes"></span></p>
+            <p>Cantidad de tareas finalizadas: <span id="span-tareas-finalizadas"></span></p>
             <div>
                 <table class="table d-none" id="tabla-tareas">
                     <thead>
@@ -61,8 +64,14 @@
                         <!-- AQUÍ SE AGREGAN LAS TAREAS DE FORMA DINÁMICA -->
                     </tbody>
                 </table>
-                <div id="mensaje-sin-tareas">
+                <div id="mensaje-sin-tareas" class="d-none">
                     <p class="text-center fs-1 fw-bold">No existen tareas</p>
+                </div>
+
+                <div class="d-flex justify-content-center" id="spinner-tabla-loader">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
         </section>
