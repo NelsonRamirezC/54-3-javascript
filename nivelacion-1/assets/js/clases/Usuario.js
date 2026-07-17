@@ -9,7 +9,6 @@ const getUsuarios = async () => {
 }
 
 
-
 class Usuario {
     constructor(){
         this.id = "";
@@ -21,6 +20,22 @@ class Usuario {
 
     #guardarUsuarioStorage(){
         localStorage.setItem("usuario", JSON.stringify(this));
+    }
+
+    actualizar(){
+        let usuarioStorage = localStorage.getItem("usuario");
+
+        if(!usuarioStorage) return false;
+
+        usuarioStorage = JSON.parse(usuarioStorage);
+
+        this.id = usuarioStorage.id;
+        this.nombre = usuarioStorage.nombre;
+        this.apellido = usuarioStorage.apellido;
+        this.email = usuarioStorage.email;
+        this.wallet = new Wallet(usuarioStorage.wallet.saldo);
+
+        return true;
     }
 
     async login(email, password){
@@ -43,9 +58,15 @@ class Usuario {
         }
     }
 
+
+    guardar(){
+        this.#guardarUsuarioStorage();
+    }
+
     static logout(){
         localStorage.clear();
     }
+
 }
 
 

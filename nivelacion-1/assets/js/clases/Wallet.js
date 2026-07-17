@@ -4,7 +4,7 @@ class Wallet {
     }
 
     depositar(monto){
-        this.saldo += monto;
+        this.saldo += Number(monto);
         return this.saldo;
     }
 }
