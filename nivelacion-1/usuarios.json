@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "nombre": "Jorge",
+        "apellido": "soto",
+        "email": "jorge.soto@gmail.com",
+        "password": "123456",
+        "saldo": 50000
+    },
+    {
+        "id": 2,
+        "nombre": "Miguel",
+        "apellido": "Godoy",
+        "email": "miguel.godoy@gmail.com",
+        "password": "123456",
+        "saldo": 100000
+    }
+    
+]
