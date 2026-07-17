@@ -16,6 +16,7 @@ class Usuario {
         this.apellido = "";
         this.email = "";
         this.wallet = ""
+        this.contactos = []
     }
 
     #guardarUsuarioStorage(){
@@ -34,6 +35,7 @@ class Usuario {
         this.apellido = usuarioStorage.apellido;
         this.email = usuarioStorage.email;
         this.wallet = new Wallet(usuarioStorage.wallet.saldo);
+        this.contactos = usuarioStorage.contactos
 
         return true;
     }
@@ -50,6 +52,7 @@ class Usuario {
             this.apellido = usuario.apellido;
             this.email = usuario.email;
             this.wallet = new Wallet(usuario.saldo);
+            this.contactos = usuario.contactos
             
             this.#guardarUsuarioStorage();
             return true;

@@ -16,14 +16,24 @@ linkLogout.addEventListener("click", ()=> {
 
 
 const main = () => {
-    let usuarioStorage = localStorage.getItem("usuario");
+    const usuario = new Usuario();
+    const existeUsuario = usuario.actualizar();
 
-    if(usuarioStorage){
+    if(existeUsuario){
         linkLogout.classList.remove("d-none");
         linkSendMoney.classList.remove("d-none");
         linkDeposit.classList.remove("d-none");
 
         linkLogin.classList.add("d-none");
+
+
+        //MENSAJE BIENVENIDA
+
+        const parrafoSaludo = document.getElementById("mensaje-bienvenida");
+        if(parrafoSaludo){
+            parrafoSaludo.textContent= `Bienvenido a tu App Wallet, ${usuario.nombre} ${usuario.apellido}.`;
+        }
+        
     }
 }
 

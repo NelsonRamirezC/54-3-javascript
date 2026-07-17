@@ -5,7 +5,8 @@
         "apellido": "soto",
         "email": "jorge.soto@gmail.com",
         "password": "123456",
-        "saldo": 50000
+        "saldo": 50000,
+        "contactos": ["Pedro", "Matias", "Lorena"]
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "apellido": "Godoy",
         "email": "miguel.godoy@gmail.com",
         "password": "123456",
-        "saldo": 100000
+        "saldo": 100000,
+        "contactos": ["Marta", "Faby", "Manuel"]
     }
     
 ]

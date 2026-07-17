@@ -1,17 +1,17 @@
 import Usuario from "./clases/Usuario.js";
 
-let usuarioStorage = localStorage.getItem("usuario");
+const usuario = new Usuario();
+const existeUsuario = usuario.actualizar();
 
-if(!usuarioStorage){
+if(!existeUsuario){
     location.href = "./index.html"; 
 }
 
-usuarioStorage = JSON.parse(usuarioStorage);
 
 const formDeposit = document.getElementById("form-deposit");
 const outputSaldo = document.getElementById("output-saldo");
 
-outputSaldo.innerText = usuarioStorage.wallet.saldo;
+outputSaldo.innerText = usuario.wallet.saldo;
 
 if(formDeposit){
 
@@ -20,10 +20,6 @@ if(formDeposit){
         try {
             event.preventDefault();
     
-            const usuario = new Usuario();
-
-            usuario.actualizar();
-
             
             let monto = Number(document.getElementById("deposit-monto").value);
 

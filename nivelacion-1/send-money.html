@@ -15,6 +15,8 @@
 
     <script defer type="module" src="./assets/js/index.js"></script>
 
+    <script defer type="module" src="./assets/js/send_money.js"></script>
+
 </head>
 
 <body>
@@ -29,9 +31,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
-                    <a class="nav-link active" aria-current="page" href="/index.html">Inicio</a>
-                    <a class="nav-link d-none" href="./send-money.html" id="link-send-money">Send Money</a>
-                    <a class="nav-link d-none" href="./deposit.html" id="link-deposit">Deposit</a>
+                    <a class="nav-link" href="/index.html">Inicio</a>
+                    <a class="nav-link d-none active" aria-current="page" href="./send-money.html" id="link-send-money">Send Money</a>
+                    <a class="nav-link d-none"  href="./deposit.html" id="link-deposit">Deposit</a>
                     <a class="nav-link" href="./login.html" id="link-login">Login</a>
                     <a class="nav-link d-none" id="link-logout">Logout</a>
                 </div>
@@ -42,13 +44,31 @@
     <!-- FIN NAVBAR -->
 
     <header class="py-3">
-        <h1 class="text-center">Página principal Wallet</h1>
+        <h1 class="text-center">Realiza tus transfernecias de forma segura...</h1>
     </header>
 
+
     <main class="container">
-        <section>
-            <p id="mensaje-bienvenida" class="fs-2 fw-bold"></p>
-        </section>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                <p>Su saldo es: <span id="output-saldo"></span></p>
+                <form id="form-send-money">
+                    <div class="mb-3">
+                        <label for="send-monto" class="form-label">Enviar dinero:</label>
+                        <input type="number" class="form-control" min="500" value="500" name="monto" id="send-monto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="send-contacto" class="form-label">Seleccionar contacto:</label>
+                        <select name="send-contacto" id="send-contacto" class="form-control" required>
+                        </select>
+
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="Transferir">
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
 

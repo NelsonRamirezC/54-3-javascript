@@ -7,19 +7,13 @@ class Wallet {
         this.saldo += Number(monto);
         return this.saldo;
     }
+
+    transferir(monto){
+        this.saldo -= monto;
+        return this.saldo;
+    }
 }
 
 
 export default Wallet;
 
-`
-Atributos:
-contactos
-transacciones
-
-Comportamientos:
-enviar,
-depositar,
-descontar,
-sumar
-`
